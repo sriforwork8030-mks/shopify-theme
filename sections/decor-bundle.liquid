@@ -1,0 +1,85 @@
+<section class="decor-bundle-section">
+
+<h2>{{ section.settings.heading }}</h2>
+
+{% assign bundles = shop.metaobjects.decor_bundle.values %}
+
+{% if bundles.size > 0 %}
+
+<div class="decor-bundle-grid">
+
+{% for bundle in bundles %}
+
+<div class="bundle-card">
+
+{% if bundle.room_image.value != blank %}
+  <img
+    src="{{ bundle.room_image.value | image_url: width: 800 }}"
+    alt="{{ bundle.look_name }}"
+    class="bundle-image"
+    loading="lazy"
+
+  >
+{% endif %}
+
+<h3 class="bundle-title">
+  {{ bundle.look_name }}
+</h3>
+
+{% if bundle.description != blank %}
+<p class="bundle-description">
+  {{ bundle.description }}
+</p>
+{% endif %}
+
+{% if bundle.products_used.value != blank %}
+
+<div class="bundle-products">
+
+{% for product in bundle.products_used.value %}
+
+<a href="{{ product.url }}" class="bundle-product">
+
+{{ product.title }}
+
+</a>
+
+{% endfor %}
+
+</div>
+
+{% endif %}
+
+</div>
+
+{% endfor %}
+
+</div>
+
+{% else %}
+
+<p>No decor bundles available.</p>
+
+{% endif %}
+
+</section>
+
+
+{% schema %}
+{
+  "name": "Decor Bundle",
+  "settings": [
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Section Heading",
+      "default": "Decor Bundles"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Decor Bundle"
+    }
+  ]
+}
+{% endschema %}

@@ -1,0 +1,103 @@
+<div class="decor-mood-selector" {{ block.shopify_attributes }}>
+
+  <h3>{{ block.settings.heading }}</h3>
+
+  <div class="mood-options">
+
+    {% if block.settings.mood1_text != blank %}
+      <a href="{{ block.settings.mood1_link }}" class="mood-btn">
+        {{ block.settings.mood1_text }}
+      </a>
+    {% endif %}
+
+    {% if block.settings.mood2_text != blank %}
+      <a href="{{ block.settings.mood2_link }}" class="mood-btn">
+        {{ block.settings.mood2_text }}
+      </a>
+    {% endif %}
+
+    {% if block.settings.mood3_text != blank %}
+      <a href="{{ block.settings.mood3_link }}" class="mood-btn">
+        {{ block.settings.mood3_text }}
+      </a>
+    {% endif %}
+
+  </div>
+
+</div>
+
+<style>
+.decor-mood-selector{
+margin-top:30px;
+text-align:center;
+}
+
+.mood-options{
+display:flex;
+justify-content:center;
+gap:15px;
+flex-wrap:wrap;
+margin-top:10px;
+}
+
+.mood-btn{
+padding:10px 18px;
+border:1px solid #000;
+text-decoration:none;
+border-radius:6px;
+font-weight:500;
+color:#000;
+}
+
+.mood-btn:hover{
+background:#000;
+color:#fff;
+}
+</style>
+
+{% schema %}
+{
+  "name": "Decor Mood Selector",
+  "settings": [
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "Choose Your Decor Mood"
+    },
+    {
+      "type": "text",
+      "id": "mood1_text",
+      "label": "Mood 1",
+      "default": "Minimal"
+    },
+    {
+      "type": "url",
+      "id": "mood1_link",
+      "label": "Mood 1 Link"
+    },
+    {
+      "type": "text",
+      "id": "mood2_text",
+      "label": "Mood 2",
+      "default": "Cozy"
+    },
+    {
+      "type": "url",
+      "id": "mood2_link",
+      "label": "Mood 2 Link"
+    },
+    {
+      "type": "text",
+      "id": "mood3_text",
+      "label": "Mood 3",
+      "default": "Modern"
+    },
+    {
+      "type": "url",
+      "id": "mood3_link",
+      "label": "Mood 3 Link"
+    }
+  ]
+}
+{% endschema %}

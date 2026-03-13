@@ -1,0 +1,21 @@
+{% schema %}
+{
+"name":"title",
+"settings": [
+    {
+     "type":"text",
+     "id":"title",
+     "label":"Heading"   
+    }
+],
+"presets": [
+    {
+    "name":"title"
+    }
+]
+}
+{% endschema %}
+
+<div class="page-width" style="fontsize:30px">
+    {{ block.settings.title}}
+</div>

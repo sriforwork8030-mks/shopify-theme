@@ -1,0 +1,52 @@
+<div class="shop-room-card" {{ block.shopify_attributes }}>
+
+  <a href="{{ block.settings.room_link }}" class="room-link">
+
+    {% if block.settings.room_image != blank %}
+      <img
+        src="{{ block.settings.room_image | image_url: width: 500}}"
+        alt="{{ block.settings.room_title }}"
+        class="room-image"
+        loading="lazy"
+    >
+    {% endif %}
+
+    {% if block.settings.room_title != blank %}
+      <h3 class="room-title">
+        {{ block.settings.room_title }}
+      </h3>
+    {% endif %}
+
+  </a>
+  
+
+</div>
+
+
+{% schema %}
+{
+  "name": "Shop by Room",
+  "settings": [
+    {
+      "type": "image_picker",
+      "id": "room_image",
+      "label": "Room Image"
+    },
+    {
+      "type": "text",
+      "id": "room_title",
+      "label": "Room Title"
+    },
+    {
+      "type": "url",
+      "id": "room_link",
+      "label": "Collection Link"
+    }
+  ],
+  "presets": [
+    {
+    "name":"Shop-by-room"
+    }
+  ]
+}
+{% endschema %}

@@ -1,0 +1,27 @@
+<div class="decor-mood-selector">
+
+  <h3>{{ heading }}</h3>
+
+  <div class="mood-options">
+
+    {% if mood1_text != blank %}
+      <a href="{{ mood1_link }}" class="mood-btn">
+        {{ mood1_text }}
+      </a>
+    {% endif %}
+
+    {% if mood2_text != blank %}
+      <a href="{{ mood2_link }}" class="mood-btn">
+        {{ mood2_text }}
+      </a>
+    {% endif %}
+
+    {% if mood3_text != blank %}
+      <a href="{{ mood3_link }}" class="mood-btn">
+        {{ mood3_text }}
+      </a>
+    {% endif %}
+
+  </div>
+
+</div>

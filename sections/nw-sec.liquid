@@ -1,0 +1,25 @@
+{% schema%}
+{
+    "name":"newsection",
+    "settings": [
+
+    ],
+    "blocks": [
+        {
+            "type":"@theme"
+        },
+        {
+            "type": "@app"
+        }
+    ],
+    "presets": [
+        {
+            "name":"welcome-to-customer-care"
+        }
+    ]
+}
+{% endschema %} 
+
+<div>
+    {% content_for 'blocks' %}
+    </div>

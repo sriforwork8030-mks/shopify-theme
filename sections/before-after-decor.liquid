@@ -1,0 +1,193 @@
+<section class="before-after-section">
+
+<h2>{{ section.settings.heading }}</h2>
+
+<div class="ba-wrapper">
+
+<img
+src="{{ section.settings.after_image | image_url: width: 1200 }}"
+class="ba-img"
+alt="After image"
+>
+
+<div class="ba-overlay">
+<img
+src="{{ section.settings.before_image | image_url: width: 1200 }}"
+class="ba-img"
+alt="Before image"
+>
+</div>
+
+<div class="ba-divider"></div>
+
+</div>
+
+
+{% for block in section.blocks %}
+
+  {% case block.type %}
+
+    {% when 'decor_mood_selector' %}
+
+      {% render 'decor-mood-selector',
+        heading: block.settings.heading,
+        mood1_text: block.settings.mood1_text,
+        mood1_link: block.settings.mood1_link,
+        mood2_text: block.settings.mood2_text,
+        mood2_link: block.settings.mood2_link,
+        mood3_text: block.settings.mood3_text,
+        mood3_link: block.settings.mood3_link
+      %}
+
+  {% endcase %}
+
+{% endfor %}
+
+</section>
+
+
+<style>
+
+.before-after-section{
+text-align:center;
+max-width:900px;
+margin:auto;
+}
+
+.ba-wrapper{
+position:relative;
+overflow:hidden;
+cursor:ew-resize;
+}
+
+.ba-img{
+width:100%;
+display:block;
+}
+
+.ba-overlay{
+position:absolute;
+top:0;
+left:0;
+width:50%;
+height:100%;
+overflow:hidden;
+}
+
+.ba-divider{
+position:absolute;
+top:0;
+left:50%;
+width:2px;
+height:100%;
+background:#ffffff;
+border:2px solid white;
+cursor:ew-resize;
+}
+
+</style>
+
+
+<script>
+
+document.addEventListener("DOMContentLoaded", function(){
+
+document.querySelectorAll(".ba-wrapper").forEach(function(wrapper){
+
+const overlay = wrapper.querySelector(".ba-overlay");
+const divider = wrapper.querySelector(".ba-divider");
+
+wrapper.addEventListener("mousemove", function(e){
+
+const rect = wrapper.getBoundingClientRect();
+let position = e.clientX - rect.left;
+
+let percent = (position / rect.width) * 100;
+
+overlay.style.width = percent + "%";
+divider.style.left = percent + "%";
+
+});
+
+});
+
+});
+
+</script>
+
+
+{% schema %}
+{
+  "name": "Before After Comparison",
+
+  "settings":[
+    {
+      "type":"text",
+      "id":"heading",
+      "label":"Heading",
+      "default":"See the Transformation"
+    },
+    {
+      "type":"image_picker",
+      "id":"before_image",
+      "label":"Before Image"
+    },
+    {
+      "type":"image_picker",
+      "id":"after_image",
+      "label":"After Image"
+    }
+  ],
+
+  "blocks":[
+    {
+      "type":"decor_mood_selector",
+      "name":"Decor Mood Selector",
+      "settings":[
+        {
+          "type":"text",
+          "id":"heading",
+          "label":"Heading",
+          "default":"Choose Your Decor Mood"
+        },
+        {
+          "type":"text",
+          "id":"mood1_text",
+          "label":"Mood 1"
+        },
+        {
+          "type":"url",
+          "id":"mood1_link",
+          "label":"Mood 1 Link"
+        },
+        {
+          "type":"text",
+          "id":"mood2_text",
+          "label":"Mood 2"
+        },
+        {
+          "type":"url",
+          "id":"mood2_link",
+          "label":"Mood 2 Link"
+        },
+        {
+          "type":"text",
+          "id":"mood3_text",
+          "label":"Mood 3"
+        },
+        {
+          "type":"url",
+          "id":"mood3_link",
+          "label":"Mood 3 Link"
+        }
+      ]
+    }
+  ],
+
+  "presets":[
+    {
+      "name":"Before After Comparison"
+    }
+  ]
+}
+{% endschema %}
