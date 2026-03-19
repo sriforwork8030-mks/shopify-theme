@@ -17,6 +17,6 @@ jobs:
         run: npm install -g @shopify/cli
 
       - name: Deploy Theme
-        run: shopify theme push --force --store ${{ secrets.SHOPIFY_STORE }}
+        run: shopify theme push --force --store ${{ secrets.SHOPIFY_STORE }} --theme ${{ secrets.SHOPIFY_THEME_ID }}
         env:
           SHOPIFY_CLI_THEME_TOKEN: ${{ secrets.SHOPIFY_CLI_THEME_TOKEN }}
