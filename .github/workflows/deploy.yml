@@ -1,22 +1,91 @@
-name: Deploy Theme
-
+name: Deploy Shopify Theme
+ 
 on:
   push:
     branches:
       - main
-
+  pull_request:
+    branches:
+      - main
+ 
 jobs:
-  deploy:
+  lint:
+    name: Lint Theme
     runs-on: ubuntu-latest
-
     steps:
-      - name: Checkout
+      - name: Checkout code
         uses: actions/checkout@v4
-
+ 
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+ 
       - name: Install Shopify CLI
-        run: npm install -g @shopify/cli
-
-      - name: Deploy Theme
-        run: shopify theme push --force --store ${{ secrets.SHOPIFY_STORE }} --theme ${{ secrets.SHOPIFY_THEME_ID }}
+        run: npm install -g @shopify/cli@latest
+ 
+      - name: Run Theme Check
+        run: shopify theme check --no-color || true
+        env:
+          SHOPIFY_FLAG_STORE: ${{ secrets.SHOPIFY_FLAG_STORE }}
+          SHOPIFY_CLI_THEME_TOKEN: ${{ secrets.SHOPIFY_CLI_THEME_TOKEN }}
+ 
+  deploy-preview:
+    name: Deploy Preview Theme
+    runs-on: ubuntu-latest
+    needs: lint
+    if: github.event_name == 'pull_request'
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+ 
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+ 
+      - name: Install Shopify CLI
+        run: npm install -g @shopify/cli@latest
+ 
+      - name: Deploy Preview Theme
+        run: |
+          shopify theme push \
+            --unpublished \
+            --theme="PR #${{ github.event.number }} Preview" \
+            --store=${{ secrets.SHOPIFY_FLAG_STORE }}
         env:
           SHOPIFY_CLI_THEME_TOKEN: ${{ secrets.SHOPIFY_CLI_THEME_TOKEN }}
+          SHOPIFY_FLAG_STORE: ${{ secrets.SHOPIFY_FLAG_STORE }}
+ 
+  deploy-production:
+    name: Deploy to Production
+    runs-on: ubuntu-latest
+    needs: lint
+    if: github.ref == 'refs/heads/main' && github.event_name == 'push'
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+ 
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+ 
+      - name: Install Shopify CLI
+        run: npm install -g @shopify/cli@latest
+ 
+      - name: Deploy to Live Theme
+        run: |
+          shopify theme push \
+            --theme=${{ secrets.SHOPIFY_FLAG_THEME_ID }} \
+            --store=${{ secrets.SHOPIFY_FLAG_STORE }} \
+            --allow-live
+        env:
+          SHOPIFY_CLI_THEME_TOKEN: ${{ secrets.SHOPIFY_CLI_THEME_TOKEN }}
+          SHOPIFY_FLAG_STORE: ${{ secrets.SHOPIFY_FLAG_STORE }}
+ 
+      - name: Success
+        run: |
+          echo "✅ Theme deployed successfully!"
+          echo "🕐 Deployed at $(date)"
+          echo "📝 Commit: ${{ github.sha }}"

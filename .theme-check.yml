@@ -1,0 +1,28 @@
+CheckFileSize:
+  enabled: true
+  threshold_in_bytes: 100000
+ 
+DeprecateLazysizes:
+  enabled: true
+ 
+ImgLazyLoading:
+  enabled: true
+ 
+MissingTemplate:
+  enabled: true
+ 
+UnusedAssign:
+  enabled: true
+ 
+ValidJson:
+  enabled: true
+ 
+ValidSchema:
+  enabled: true
+ 
+LiquidTag:
+  enabled: true
+ 
+SyntaxError:
+  enabled: true
+ 
