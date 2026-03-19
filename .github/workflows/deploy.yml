@@ -27,7 +27,7 @@ jobs:
       - name: Run Theme Check
         run: shopify theme check --no-color || true
         env:
-          SHOPIFY_FLAG_STORE: ${{ secrets.SHOPIFY_FLAG_STORE }}
+          SHOPIFY_STORE: ${{ secrets.SHOPIFY_STORE }}
           SHOPIFY_CLI_THEME_TOKEN: ${{ secrets.SHOPIFY_CLI_THEME_TOKEN }}
  
   deploy-preview:
@@ -52,10 +52,10 @@ jobs:
           shopify theme push \
             --unpublished \
             --theme="PR #${{ github.event.number }} Preview" \
-            --store=${{ secrets.SHOPIFY_FLAG_STORE }}
+            --store=${{ secrets.SHOPIFY_STORE }}
         env:
           SHOPIFY_CLI_THEME_TOKEN: ${{ secrets.SHOPIFY_CLI_THEME_TOKEN }}
-          SHOPIFY_FLAG_STORE: ${{ secrets.SHOPIFY_FLAG_STORE }}
+          SHOPIFY_STORE: ${{ secrets.SHOPIFY_STORE }}
  
   deploy-production:
     name: Deploy to Production
@@ -77,12 +77,12 @@ jobs:
       - name: Deploy to Live Theme
         run: |
           shopify theme push \
-            --theme=${{ secrets.SHOPIFY_FLAG_THEME_ID }} \
-            --store=${{ secrets.SHOPIFY_FLAG_STORE }} \
+            --theme=${{ secrets.SHOPIFY_THEME_ID }} \
+            --store=${{ secrets.SHOPIFY_STORE }} \
             --allow-live
         env:
           SHOPIFY_CLI_THEME_TOKEN: ${{ secrets.SHOPIFY_CLI_THEME_TOKEN }}
-          SHOPIFY_FLAG_STORE: ${{ secrets.SHOPIFY_FLAG_STORE }}
+          SHOPIFY_STORE: ${{ secrets.SHOPIFY_STORE }}
  
       - name: Success
         run: |
